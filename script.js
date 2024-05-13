@@ -38,7 +38,7 @@ function onRequestError() {
 }
 
 const interval = Number(query.get("interval") || 0);
-if (interval > 0) {
+if (interval > 1) {
   generateWallpaper();
   setInterval(generateWallpaper, interval * 1000 * 60);
 } else {
