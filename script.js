@@ -4,9 +4,10 @@ const onyomiElement = document.getElementById("onyomi");
 const meaningElement = document.getElementById("meaning");
 
 const baseUrl = "https://kanjiapi.dev/v1/kanji/";
+const query = new URLSearchParams(window.location.search);
 
 async function generateWallpaper() {
-  const filterQuery = new URLSearchParams(window.location.search).get("filter");
+  const filterQuery = query.get("filter");
   const kanjiListUrl = filterQuery ? `${baseUrl}${filterQuery}` : `${baseUrl}all`;
 
   const allKanjisRequest = await fetch(kanjiListUrl);
@@ -36,4 +37,10 @@ function onRequestError() {
   meaningElement.remove();
 }
 
-generateWallpaper();
+const interval = Number(query.get("interval") || 0);
+if (interval > 0) {
+  generateWallpaper();
+  setInterval(generateWallpaper, interval * 1000 * 60);
+} else {
+  generateWallpaper();
+}
